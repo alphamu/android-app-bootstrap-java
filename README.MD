@@ -2,7 +2,31 @@
 
 An empty android (java) app pre-configured with Dagger, Retrofit, Room and Jetpack.
 
-# Build using docker
+## Usage
+
+It's recommended that you clone the project and export it to an other folder
+
+    git clone https://github.com/alphamu/android-app-bootstrap-java.git
+    cd android-app-bootstrap-java
+    git archive master | tar -x -C /somewhere/else
+
+### Change package name
+
+If you want to change the package name, it is recommended to do so
+in Android Studio. First, create the package structure you want.
+Then modify the files below to point to your new package.
+
+- AndroidManifest.xml
+- - package
+- app/build.gradle
+- - applicationId
+
+Finally, using Android Studio's refactor feature, move the contents of
+`com.alimuzaffar.blank` to your new package.
+
+
+
+## Build using docker
 
 - CD into the directory with the source
 
