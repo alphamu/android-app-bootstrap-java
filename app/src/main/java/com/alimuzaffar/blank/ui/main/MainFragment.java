@@ -1,16 +1,29 @@
 package com.alimuzaffar.blank.ui.main;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.alimuzaffar.blank.R;
+import com.alimuzaffar.blank.net.ApiInterface;
+import com.google.gson.Gson;
+
+import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import dagger.android.support.AndroidSupportInjection;
 
 public class MainFragment extends Fragment {
+
+    @Inject
+    ApiInterface api;
+
+    @Inject
+    Gson gson;
 
     private MainViewModel mViewModel;
 
@@ -27,6 +40,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        AndroidSupportInjection.inject(this);
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         // TODO: Use the ViewModel
