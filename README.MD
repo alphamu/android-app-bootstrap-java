@@ -17,9 +17,9 @@ in Android Studio. First, create the package structure you want.
 Then modify the files below to point to your new package.
 
 - AndroidManifest.xml
-- - package
+    - package
 - app/build.gradle
-- - applicationId
+    - applicationId
 
 Finally, using Android Studio's refactor feature, move the contents of
 `com.alimuzaffar.blank` to your new package.
