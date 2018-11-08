@@ -1,0 +1,51 @@
+language: android
+jdk: oraclejdk8
+before_install:
+- yes | sdkmanager "platforms;android-28"
+- yes | sdkmanager "sources;android-27"
+- yes | sdkmanager "docs"
+android:
+  components:
+  - tools
+  - platform-tools
+  - build-tools-28.0.3
+  - android-28
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - extra-android-support
+  - addon-google_apis-google-23
+licenses:
+- .+
+branches:
+  except:
+  - gh-pages
+notifications:
+  email: false
+sudo: false
+script: travis_retry ./build-test-deploy.sh
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+deploy:
+  provider: releases
+## Encrypted API Key to upload APK to github
+  api_key:
+    secure: I0FGXpd/WY0yrkBofDDvu6RPIgkwXsuxpkglZTXqywVwZbSeI+5zGblQ/FI/EGR/y7inTXggcg4FU5Qx0nDHWICJ0eHDVkwI9FHZpdQ5Ir9zH0zWl/icAu9W6MEE/4z5kRSdHpzIHLtloWQ7U+kO6ZgxBt02PxcVmwaghW45y7KZ4mcGgz5WGRJbCy7OG1ikCp7vWEXTYX4KbhjYEoF3yGpG+vD9VElE+bmgKRAl7gQVDm5XPrve6xavQKfEKL7vNOLt2JF05PPqSxDdtd+jvQBn7sXRLY1qzckDnQ/Nv6v4zdysAOAahtO8Tyopwrgk1tUj8L1R3r3aOGu/2WWADSlDU9gRHg0dZRvU9hI9rxs31G83RSGk1mzMAjWZ7fq1BaTOOygmwamP4IUQdiOTrT2CI9xS/ItacYcKsdFX2aLyr90Yig6XuJgVq0AYFVkFfDbbA+YQ0fdEzZ+RG8bjsZYajBrPZKRLchhlB1miKaHlqOPttApL9EfV4gfa1XFlGnEbpDqqczX6LRjhX+/7etuhwftxIwFVlfkKj89/NHeiJ4Ofdujn0MNzdPJD3n05+Yqq3OmUNoWttlw5TgiekzAizCBLiSuFQExuFUPYwUKE7IXZcintBSdcVHWTZb6mFecddylgwlfyUZktmLmxtJi1doif3KNl0DfjF56P9Kc=
+  file:
+  - app/build/outputs/apk/prod/release/app-prod-release.apk
+  - app/build/outputs/apk/dev/release/app-dev-release.apk
+  - app/build/outputs/apk/mock/release/app-mock-release.apk
+  skip_cleanup: true
+  on:
+    repo: alphamu/android-app-bootstrap
+    tags: true
+## Secure variables, these are keystore passwords set in environment variables.
+#env:
+#  global:
+#  - secure: bi38RNY4Ks7b/W0ccTrMX6ysSkkPymZazb3pf3kAf4PYgkq16oXLrMYfUJScOdQPVFI9YVqK2Fz+uAVU1zMwmq6VX4HIzMnUqQFV1bfxMCu+9dMKixtvC9+S5jS24QtyPuRoQbFpZbYpdlRSw82R68JopaNpFZ+dVJPF9x2g/i2sbDmBQM9cg1OWPcZIUj3x7F0O/xquUzrgUkLHIHjzTek5wlitN8+uCzLqZz7weCnOYgA8mI0kEkMTXPVjIEVsFLq9u/0lWoN0fhtLmIfEe8TyiAi6Cw6l0B7EHf9YnMb0DpH0PdPViUGobhIVM5+HsFkUY7abgAawXce2rvIaiuBK8KC0XLXMJQ1tS+Ru+rgCDyNd4CxHp/eXws4m2/hcTb+H/PLRY/1Hz+lp/XEmij1x1DFyg20FqwdR9alkABf/EqnLJHHvCXrRmWJQjwng5UgZ8vplYQUPfq9UGZAxCpsHxrJ69oKs0uOck8aJXuF9X+M07JBlF5ED+EUy0aSQj1nWyerq8i18qPkO3EUDNw474kwLBrYnRURxgMefU+ca8s3D9NHiJ1C2oP0ScSmfL9mFzKLxmJH3nSm6s3Z708620uUOJ4cqSUjZJJrvuVTKz+hXF+VNZ3YG/nhcn+Q3g62vWQnEffbfYC1n9WsvxARY2Nr+trk2PtF1Xr05kis=
+#  - secure: AcjIpNGYUHJeBrv5rYPThl6OJr6ckL4mIxHuXpp8rjZS+YCsRQ3+cSDB8Kcw391dMckHRcXpxsgJ3pk1rE9E6QSpBf1ax6BT7lvVzq3KPvbds2kZ20JhvWCKkYreNzOkfPoFsReMAWgYFUI0YJcfKCf7eNc7ESgJjv1TYB/PfH1NC6LlG+j6kTW719HyDErjyC+nMWBLoOik0sEO1n3afZhaOvjzd91bIt5LJR9G6sPmjV7xHYARTvIAs+1Pj4cHi8g98Y8hbK3yet3if/FMX4pTh3OaP44eoJAIJr3R0MBeazrgpJMUqSHaXfsNDYwWHb0lTy5Jqm1UWIeV/Q7sIlVnXNAuSc21P31z5aKh7hNclF5VdlAOh5HmYs0ZQ9VB9GY4NidxRs8JuI9A97pD6fyhnJZ7tHPxNUMYsn1f2vxTepQ1TW5UvhWnoB0qtRN6+tBMAlDXRH9vuTVSMpugXqab+XQRFaBgQ8JfXrtaBZp9JchBrZHFc6dVHFJoKVm047M439C61lW0p3LRCg9334mEsWee63IoupKhd9bfTnevtps2xd7rVPytxNfJ2y1QIMZdmS1SJ/RjouuKct+qkES+0931jr33faEdMV3ZfLtdQAeGvbqP6R8WVfP9IyzENVgbX4MHeyHtnXQsIbxAzyTWcO+jBmsrEg5pUTcq5V0=
+#  - secure: LVCVBqt46OrRHlUnw+dcJXgRamCM87zNmQychCRiP4VvKgwUAZ8Eg0nLTQ3BhYarB29t5GMeHiMZGiue46XKSS1d/VgvB4U55w0ZD6CIrOTBg4jygz3VPxjzIYV+hrjxPBbG/t/BNHwZ2r2FcDdCFpiXsWkz5HvVTPfmaCabucAPLMfE477yMcJYxcaE2SkJVjRplQI+BdeJfuuuGxFiDJiEMk6GJRQQbN9wb+h3ak5tpTnjiALzxov0zqyPbNj/EmTVlEQ7Z502TFsY9dhsLSFNuUI/JJPkO+4+qRmMFk+ngv5MVfmWc04dB6GSRtiWapW+GA6DCrkQUoGR6KNOdarihzMHK14VDQsTty9od07KMF7mvuwXnRvngdrLNVv4PqQgnSwy2D4PYWSnrKIK0nikDtLmPge2GrMAmT98S4PQCyVuaoGjwXdTa1U5kBuc5gS93xfXou7gxtsfelsI3BLhyb0J0SYf5HI4GM1QowJkoNhdTpwnKbF2XXwykoxOfBn95VhNV6QUy9FHPUeI2ZpaaqecaUXqBgKnCrDtcpohI9eNnnxs6bAOPlAaTVp4mS1PR0vhWmxIBzIt1Hl6Mg3mG//+kRYosJp1M5IcUpJasl7wk8Tgzo40mqLglmstgtbBhPU4aOiEWofSLgBFaenSa0NNVx1Y0ps0xpG7iQA=
