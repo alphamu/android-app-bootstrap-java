@@ -2,6 +2,13 @@
 
 An empty android (java) app pre-configured with Dagger, Retrofit, Room and Jetpack.
 
+## Requirements
+
+As this project uses Jetpack (a.k.a AndroidX) it requires you to have:
+
+- Android Studio 3.2+
+- JDK 8+
+
 ## Usage
 
 It's recommended that you clone the project and export it to an other folder
@@ -24,7 +31,10 @@ Then modify the files below to point to your new package.
 Finally, using Android Studio's refactor feature, move the contents of
 `com.alimuzaffar.blank` to your new package.
 
+## Build the app
 
+As always, you can just use `./gradlew assemble` to build all variants
+of the app.
 
 ## Build using docker
 
